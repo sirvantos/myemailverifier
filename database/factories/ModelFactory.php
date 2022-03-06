@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirvantos\Myemailverifier\Database\Factories;
+namespace Sirvantos\MyEmailVerifier\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

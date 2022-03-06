@@ -1,25 +1,17 @@
 <?php
 
-namespace Sirvantos\Myemailverifier;
+namespace Sirvantos\MyEmailVerifier;
 
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Sirvantos\Myemailverifier\Commands\MyemailverifierCommand;
+use Sirvantos\MyEmailVerifier\Services\Suppliers\Contracts\CanSupply;
+use Sirvantos\MyEmailVerifier\Services\Suppliers\Guzzle;
+use Illuminate\Support\ServiceProvider;
 
-class MyemailverifierServiceProvider extends PackageServiceProvider
+class MyEmailVerifierServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
+    public function register()
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
-        $package
-            ->name('myemailverifier')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_myemailverifier_table')
-            ->hasCommand(MyemailverifierCommand::class);
+        $this->mergeConfigFrom(__DIR__.'/../config/myemailverifier.php', 'myemailverifier');
+
+        $this->app->bind(CanSupply::class, fn($app) => new Guzzle());
     }
 }

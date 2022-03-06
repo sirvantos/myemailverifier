@@ -1,5 +1,5 @@
 <?php
-// config for Sirvantos/Myemailverifier
-return [
 
+return [
+    'token' => env('MY_EMAIL_VERIFIER_TOKEN')
 ];

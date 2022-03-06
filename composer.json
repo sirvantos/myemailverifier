@@ -17,32 +17,30 @@
     ],
     "require": {
         "php": "^7.4",
-        "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^9.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "illuminate/contracts": "5.8.*|^6.0",
+        "illuminate/encryption": "5.8.*|^6.0",
+        "illuminate/http": "5.8.*|^6.0",
+        "illuminate/support": "5.8.*|^6.0",
+        "illuminate/validation": "5.8.*|^6.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "^6.0",
-        "orchestra/testbench": "^7.0",
-        "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-laravel": "^1.1",
-        "phpunit/phpunit": "^9.5",
-        "spatie/laravel-ray": "^1.26"
+        "orchestra/testbench": "3.8.*|^4.0|^5.0",
+        "spatie/phpunit-snapshot-assertions": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "Sirvantos\\Myemailverifier\\": "src",
-            "Sirvantos\\Myemailverifier\\Database\\Factories\\": "database/factories"
+            "Sirvantos\\MyEmailVerifier\\": "src",
+            "Sirvantos\\MyEmailVerifier\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sirvantos\\Myemailverifier\\Tests\\": "tests"
+            "Sirvantos\\MyEmailVerifier\\Tests\\": "tests"
         }
     },
     "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage"
+        "test": "vendor/bin/pest"
     },
     "config": {
         "sort-packages": true
@@ -50,10 +48,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Sirvantos\\Myemailverifier\\MyemailverifierServiceProvider"
+                "Sirvantos\\MyEmailVerifier\\MyEmailVerifierProvider"
             ],
             "aliases": {
-                "Myemailverifier": "Sirvantos\\Myemailverifier\\Facades\\Myemailverifier"
+                "MyEmailVerifier": "Sirvantos\\MyEmailVerifier\\Facades\\MyEmailVerifier"
             }
         }
     },

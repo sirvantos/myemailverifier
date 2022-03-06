@@ -1,36 +1,41 @@
 <?php
 
-namespace Sirvantos\Myemailverifier\Tests;
+namespace Sirvantos\MyEmailVerifier\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
-use Sirvantos\Myemailverifier\MyemailverifierServiceProvider;
+use Sirvantos\MyEmailVerifier\MyEmailVerifierServiceProvider;
+use Carbon\CarbonInterface;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithContainer;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\View;
 
-class TestCase extends Orchestra
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-    protected function setUp(): void
+    use InteractsWithContainer;
+
+    protected $testNow = true;
+
+    public function setUp(): void
     {
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Sirvantos\\Myemailverifier\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        if ($this->testNow) {
+            $this->setNow(2019, 1, 1);
+        };
     }
 
     protected function getPackageProviders($app)
     {
-        return [
-            MyemailverifierServiceProvider::class,
-        ];
+        return [MyEmailVerifierServiceProvider::class];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function setNow($year, int $month = 1, int $day = 1)
     {
-        config()->set('database.default', 'testing');
+        $newNow = $year instanceof CarbonInterface
+            ? $year->copy()
+            : Date::createFromDate($year, $month, $day);
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_myemailverifier_table.php.stub';
-        $migration->up();
-        */
+        $newNow = $newNow->startOfDay();
+
+        Date::setTestNow($newNow);
     }
 }

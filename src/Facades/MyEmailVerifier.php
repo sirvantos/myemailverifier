@@ -1,13 +1,10 @@
 <?php
 
-namespace Sirvantos\Myemailverifier\Facades;
+namespace Sirvantos\MyEmailVerifier\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * @see \Sirvantos\Myemailverifier\Myemailverifier
- */
-class Myemailverifier extends Facade
+class MyEmailVerifier extends Facade
 {
     protected static function getFacadeAccessor()
     {

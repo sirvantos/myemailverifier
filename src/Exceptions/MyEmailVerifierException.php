@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirvantos\Myemailverifier\Exceptions;
+namespace Sirvantos\MyEmailVerifier\Exceptions;
 
 class MyEmailVerifierException extends \Exception
 {
