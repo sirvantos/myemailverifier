@@ -11,14 +11,14 @@ use Sirvantos\MyEmailVerifier\Services\Suppliers\Exceptions\SupplierException;
 
 class MyVerifierTest extends TestCase
 {
-    public function testMyEmailVerifierSetupShouldRiseExceptionIfNoTokenBeenSet()
+    public function testSetupShouldRiseExceptionIfNoTokenBeenSet()
     {
         $this->expectException(MyEmailVerifierException::class);
 
         app(MyEmailVerifier::class)->validate('test@hello.com');;
     }
 
-    public function testMyEmailVerifierSetupShouldReturnTokenIfTokenInConfig()
+    public function testValidateShouldReturnTokenIfTokenInConfig()
     {
         config()->set('myemailverifier.token', 'test');
 
@@ -27,7 +27,7 @@ class MyVerifierTest extends TestCase
         $this->assertEquals('test', app(MyEmailVerifier::class)->toArray()['token']);
     }
 
-    public function testMyEmailVerifierShouldHandleSupplierException()
+    public function testValidateShouldHandleSupplierException()
     {
         $this->expectException(MyEmailVerifierException::class);
 
@@ -45,7 +45,7 @@ class MyVerifierTest extends TestCase
         app(MyEmailVerifier::class)->validate('test@gmail.com');
     }
 
-    public function testMyEmailVerifierShouldHandleIncorrectJsonFormatException()
+    public function testValidateShouldHandleIncorrectJsonFormatException()
     {
         $this->expectException(MyEmailVerifierException::class);
 
@@ -54,25 +54,39 @@ class MyVerifierTest extends TestCase
         app(MyEmailVerifier::class)->validate('test@gmail.com');
     }
 
-    public function testMyEmailVerifierShouldRespondWithValidStatus()
+    public function testValidateShouldRespondWithValidStatus()
     {
         $this->bindSuccessResponse('Valid');
 
         $this->assertTrue(app(MyEmailVerifier::class)->validate('test@gmail.com')->getStatus()->isValid());
     }
 
-    public function testMyEmailVerifierShouldRespondWithInvalidStatus()
+    public function testValidateShouldRespondWithInvalidStatus()
     {
         $this->bindSuccessResponse('Invalid');
 
         $this->assertTrue(app(MyEmailVerifier::class)->validate('test@gmail.com')->getStatus()->isInvalid());
     }
 
-    public function testMyEmailVerifierShouldRespondWithUnknownStatus()
+    public function testValidateShouldRespondWithUnknownStatus()
     {
         $this->bindSuccessResponse('Unknown');
 
         $this->assertTrue(app(MyEmailVerifier::class)->validate('test@gmail.com')->getStatus()->isUnknown());
+    }
+
+    public function testValidShouldReturnFalseIfEmailIsNotValid()
+    {
+        $this->bindSuccessResponse('Invalid');
+
+        $this->assertFalse(app(MyEmailVerifier::class)->valid('test@gmail.com'));
+    }
+
+    public function testValidShouldReturnTrueIfEmailIsxValid()
+    {
+        $this->bindSuccessResponse('Valid');
+
+        $this->assertTrue(app(MyEmailVerifier::class)->valid('test@gmail.com'));
     }
 
     private function bindSuccessResponse(string $verificationStatus, string $body = '')
