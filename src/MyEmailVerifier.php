@@ -36,6 +36,11 @@ class MyEmailVerifier implements Arrayable
         return MyEmailVerifierResponse::make($this->sanitize($json));
     }
 
+    public function valid(string $email): bool
+    {
+        return $this->validate($email)->getStatus()->isValid();
+    }
+
     public function token(): string
     {
         throw_if(
