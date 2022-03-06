@@ -48,7 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Sirvantos\\MyEmailVerifier\\MyEmailVerifierProvider"
+                "Sirvantos\\MyEmailVerifier\\MyEmailVerifierServiceProvider"
             ],
             "aliases": {
                 "MyEmailVerifier": "Sirvantos\\MyEmailVerifier\\Facades\\MyEmailVerifier"
