@@ -72,6 +72,11 @@ final class MyEmailVerifierResponse extends BaseResponse
         return $this;
     }
 
+    public function getDiagnosis(): string
+    {
+        return $this->diagnosis;
+    }
+
     public function setGreyListed(bool $greyListed): self
     {
         $this->greyListed = $greyListed;
