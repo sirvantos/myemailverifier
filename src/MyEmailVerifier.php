@@ -33,6 +33,10 @@ class MyEmailVerifier implements Arrayable
             throw new MyEmailVerifierException("Unknown response");
         }
 
+        if (isset($json['status']) && $json['status'] == 0) {
+            throw new MyEmailVerifierException( $json['msg'] ?? "Api error");
+        }
+
         return MyEmailVerifierResponse::make($this->sanitize($json));
     }
 

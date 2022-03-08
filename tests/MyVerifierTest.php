@@ -75,18 +75,27 @@ class MyVerifierTest extends TestCase
         $this->assertTrue(app(MyEmailVerifier::class)->validate('test@gmail.com')->getStatus()->isUnknown());
     }
 
-    public function testValidShouldReturnFalseIfEmailIsNotValid()
+    public function testValidateShouldReturnFalseIfEmailIsNotValid()
     {
         $this->bindSuccessResponse('Invalid');
 
         $this->assertFalse(app(MyEmailVerifier::class)->valid('test@gmail.com'));
     }
 
-    public function testValidShouldReturnTrueIfEmailIsxValid()
+    public function testValidateShouldReturnTrueIfEmailIsxValid()
     {
         $this->bindSuccessResponse('Valid');
 
         $this->assertTrue(app(MyEmailVerifier::class)->valid('test@gmail.com'));
+    }
+
+    public function testShouldReturnCorrectResponseIfApiLeftCredits()
+    {
+        $this->expectException(MyEmailVerifierException::class);
+
+        $this->bindSuccessResponse('Invalid', '{"status":0, "msg":"You do not have enough credits."}');
+
+        app(MyEmailVerifier::class)->valid('test@gmail.com');
     }
 
     private function bindSuccessResponse(string $verificationStatus, string $body = '')
