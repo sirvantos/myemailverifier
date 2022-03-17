@@ -32,8 +32,8 @@ class MyEmailVerifier implements Arrayable
         if (!$json = json_decode($response->getBody(), true)) {
             throw new MyEmailVerifierException("Unknown response");
         }
-    
-        if (isset($json['status']) && $json['status'] == 0) {
+
+        if (isset($json['status']) && $json['status'] === 0) {
             throw new MyEmailVerifierException( $json['msg'] ?? "Api error");
         }
 
