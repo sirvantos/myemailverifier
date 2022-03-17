@@ -98,6 +98,13 @@ class MyVerifierTest extends TestCase
         app(MyEmailVerifier::class)->valid('test@gmail.com');
     }
 
+    public function testShouldCorrectHandleResponseInCaseItDoesNotHaveAllFields()
+    {
+        $this->bindSuccessResponse('Invalid', '{"status":"invalid"}');
+
+        $this->assertFalse(app(MyEmailVerifier::class)->valid('test@gmail.com'));
+    }
+
     private function bindSuccessResponse(string $verificationStatus, string $body = '')
     {
         config()->set('myemailverifier.token', 'test');

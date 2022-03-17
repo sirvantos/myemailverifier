@@ -9,27 +9,27 @@ use Illuminate\Http\Client\Response;
 final class MyEmailVerifierResponse extends BaseResponse
 {
     private Status $status;
-    private string $address;
-    private string $statusCode;
+    private ?string $address;
+    private ?string $statusCode;
     private bool $disposableDomain;
     private bool $freeDomain;
     private bool $greyListed;
-    private string $diagnosis;
+    private ?string $diagnosis;
 
     public static function make(array $payload): self
     {
         return
             (new self())
-                ->setStatus(Status::make(Arr::get($payload, 'status', '')))
-                ->setAddress(Arr::get($payload, 'address', ''))
-                ->setStatusCode(Arr::get($payload, 'status_code', ''))
-                ->setDisposableDomain(Arr::get($payload, 'disposable_domain', ''))
-                ->setFreeDomain(Arr::get($payload, 'free_domain', ''))
-                ->setDiagnosis(Arr::get($payload, 'diagnosis', ''))
-                ->setGreyListed(Arr::get($payload, 'greylisted', ''));
+                ->setStatus(Status::make(Arr::get($payload, 'status')))
+                ->setAddress(Arr::get($payload, 'address'))
+                ->setStatusCode(Arr::get($payload, 'status_code'))
+                ->setDisposableDomain(!empty($payload['disposable_domain']))
+                ->setFreeDomain(!empty($payload['free_domain']))
+                ->setDiagnosis(Arr::get($payload, 'diagnosis'))
+                ->setGreyListed(!empty($payload['greylisted']));
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(?string $address): self
     {
         $this->address = $address;
 
@@ -39,12 +39,12 @@ final class MyEmailVerifierResponse extends BaseResponse
     /**
      * @return string
      */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
 
-    public function setStatusCode(string $statusCode): self
+    public function setStatusCode(?string $statusCode): self
     {
         $this->statusCode = $statusCode;
 
@@ -65,7 +65,7 @@ final class MyEmailVerifierResponse extends BaseResponse
         return $this;
     }
 
-    public function setDiagnosis(string $diagnosis): self
+    public function setDiagnosis(?string $diagnosis): self
     {
         $this->diagnosis = $diagnosis;
 
