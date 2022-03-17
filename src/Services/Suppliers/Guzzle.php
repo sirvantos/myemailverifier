@@ -4,6 +4,7 @@ namespace Sirvantos\MyEmailVerifier\Services\Suppliers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Sirvantos\MyEmailVerifier\Services\Suppliers\Contracts\CanSupply;
 use Sirvantos\MyEmailVerifier\Services\Suppliers\Exceptions\SupplierException;
 use Psr\Http\Message\ResponseInterface;
@@ -48,7 +49,7 @@ class Guzzle implements CanSupply
     {
         try {
             return $this->initClient()->request($method, $uri, $options + ['http_errors' => true]);
-        } catch (ClientException $e) {
+        } catch (ClientException | ServerException $e) {
             throw new SupplierException('Supplier exception', 0, $e);
         }
     }
